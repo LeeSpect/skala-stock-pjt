@@ -1,0 +1,3 @@
+TechCorp,TC,938401,TECH
+GreenEnergy,GE,5437,ENERGY
+HealthPlus,HP,112136,HEALTH
