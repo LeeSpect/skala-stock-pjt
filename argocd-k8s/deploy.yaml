@@ -14,14 +14,14 @@ spec:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '8081'
         prometheus.io/path: '/actuator/prometheus'
-        update: 28f8ed43c01253624bbb0d1cf93d48ba
+        update: 5109bd93a233f8028bd0c6734c7790e9
       labels:
         app: sk084-my-app
     spec:
       serviceAccountName: default
       containers:
-      - name: my-app
-        image: amdp-registry.skala-ai.com/skala25a/sk084-my-app:2.0.0
+      - name: sk084-my-app
+        image: amdp-registry.skala-ai.com/skala25a/sk084-sk084-my-app:2.0.0
         imagePullPolicy: Always
         env:
         - name: LOGGING_LEVEL_ROOT
