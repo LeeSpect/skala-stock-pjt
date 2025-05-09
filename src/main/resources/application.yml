@@ -2,24 +2,19 @@ spring:
   application:
     name: skala-stock-console2
 
-  # === 데이터소스 설정 주석 처리 시작 ===
-  # datasource:
-  #   url: ${SPRING_DATASOURCE_URL}
-  #   username: ${SPRING_DATASOURCE_USERNAME}
-  #   # password: ${SPRING_DATASOURCE_PASSWORD}
-  #   driver-class-name: ${SPRING_DATASOURCE_DRIVER}
-  # === 데이터소스 설정 주석 처리 끝 ===
-
-  # === JPA 설정 주석 처리 시작 ===
-  # jpa:
-  #   properties:
-  #     hibernate:
-  #       dialect: org.hibernate.dialect.MySQLDialect # 또는 org.hibernate.dialect.MariaDBDialect
-  #       format_sql: true
-  #   defer-datasource-initialization: true
-  #   generate-ddl: true
-  #   open-in-view: false
-  # === JPA 설정 주석 처리 끝 ===
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME} # 로컬: root, 서버: skala-stock-server-user
+    # password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    defer-datasource-initialization: true
+    generate-ddl: true
+    open-in-view: false
 
 springdoc:
   swagger-ui:
@@ -29,9 +24,9 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,prometheus,env,beans,liveness,readiness
+        include: health,info,prometheus,env,beans,liveness,readiness # Add other endpoints as needed
   endpoint:
     health:
       show-details: always
       probes:
-        enabled: true
+        enabled: true # Enables liveness and readiness probes support

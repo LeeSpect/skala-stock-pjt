@@ -1,14 +1,10 @@
-# k8s/deploy.t
-# 이 템플릿은 env.properties의 값으로 플레이스홀더(${...})가 올바르게 치환되어야 합니다.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ${USER_NAME}-${SERVICE_NAME}
   namespace: ${NAMESPACE}
-  labels:
-    app: ${USER_NAME}-${SERVICE_NAME}
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: ${USER_NAME}-${SERVICE_NAME}
@@ -16,34 +12,17 @@ spec:
     metadata:
       annotations:
         prometheus.io/scrape: 'true'
-        # 중요: 이 값은 실제 숫자로 치환되어야 합니다 (예: '8081')
         prometheus.io/port: '8081'
         prometheus.io/path: '/actuator/prometheus'
-        update: ${HASHCODE} # CI/CD 파이프라인에서 주입될 값
+        update: ${HASHCODE}
       labels:
         app: ${USER_NAME}-${SERVICE_NAME}
     spec:
       serviceAccountName: default
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                  - ${USER_NAME}-${SERVICE_NAME}
-              topologyKey: "kubernetes.io/hostname"
       containers:
-      - name: ${IMAGE_NAME} # env.properties의 IMAGE_NAME 사용
+      - name: ${IMAGE_NAME}
         image: ${DOCKER_REGISTRY}/${USER_NAME}-${IMAGE_NAME}:${VERSION}
         imagePullPolicy: Always
-        ports:
-        # 중요: 이 값들은 실제 숫자로 치환되어야 합니다 (예: 8080, 8081)
-        - containerPort: ${CONTAINER_PORT}
-        - containerPort: 8081
         env:
         - name: LOGGING_LEVEL_ROOT
           value: ${LOGGING_LEVEL}
@@ -53,50 +32,16 @@ spec:
           value: ${NAMESPACE}
         - name: SPRING_PROFILES_ACTIVE
           value: ${PROFILE}
-        - name: SPRING_APPLICATION_JSON
-          # 중요: 이 값도 실제 숫자로 치환되어야 합니다 (예: '{"management":{"server":{"port":"8081"}}}')
-          value: '{"management":{"server":{"port":"8081"}}}'
         - name: SPRING_DATASOURCE_URL
           valueFrom:
             configMapKeyRef:
-              name: ${USER_NAME}-${SERVICE_NAME}-config
+              name: sk000-${SERVICE_NAME}-config
               key: SPRING_DATASOURCE_URL
         - name: SPRING_DATASOURCE_USERNAME
           valueFrom:
             configMapKeyRef:
-              name: ${USER_NAME}-${SERVICE_NAME}-config
+              name: sk000-${SERVICE_NAME}-config
               key: SPRING_DATASOURCE_USERNAME
-        - name: SPRING_DATASOURCE_DRIVER
-          valueFrom:
-            configMapKeyRef:
-              name: ${USER_NAME}-${SERVICE_NAME}-config
-              key: SPRING_DATASOURCE_DRIVER
         envFrom:
         - secretRef:
-            name: ${USER_NAME}-${SERVICE_NAME}-secrets
-        resources:
-          requests:
-            cpu: "100m"
-          limits:
-            cpu: "500m"
-        startupProbe:
-          httpGet:
-            path: /actuator/health/readiness
-            port: 8081
-          failureThreshold: 30
-          periodSeconds: 10
-          initialDelaySeconds: 5
-        livenessProbe:
-          httpGet:
-            path: /actuator/health/liveness
-            port: 8081
-          failureThreshold: 3
-          periodSeconds: 10
-          initialDelaySeconds: 60
-        readinessProbe:
-          httpGet:
-            path: /actuator/health/readiness
-            port: 8081
-          failureThreshold: 3
-          periodSeconds: 10
-          initialDelaySeconds: 10
+            name: sk000-${SERVICE_NAME}-secrets
