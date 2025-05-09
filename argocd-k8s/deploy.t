@@ -35,13 +35,13 @@ spec:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
             configMapKeyRef:
-              name: sk000-${SERVICE_NAME}-config
+              name: sk000-my-app-config
               key: SPRING_DATASOURCE_URL
         - name: SPRING_DATASOURCE_USERNAME
           valueFrom:
             configMapKeyRef:
-              name: sk000-${SERVICE_NAME}-config
+              name: sk000-my-app-config
               key: SPRING_DATASOURCE_USERNAME
         envFrom:
         - secretRef:
-            name: sk000-${SERVICE_NAME}-secrets
+            name: sk000-my-app-secrets
