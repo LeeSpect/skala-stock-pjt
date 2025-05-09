@@ -1,0 +1,108 @@
+# k8s/deploy.t
+# !!! 중요 !!!
+# 이 템플릿 파일의 ${...} 플레이스홀더는 env.properties 파일의 값을 사용하여
+# 실제 값(특히 숫자 포트)으로 치환되어 deploy.yaml 파일이 생성되어야 합니다.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${USER_NAME}-${SERVICE_NAME}
+  namespace: ${NAMESPACE}
+  labels:
+    app: ${USER_NAME}-${SERVICE_NAME}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ${USER_NAME}-${SERVICE_NAME}
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: 'true'
+        # !!! 중요: 이 값은 env.properties의 CONTAINER_MGMT_PORT 값 (예: '8081')으로 '따옴표 포함 문자열' 또는 숫자(YAML 컨텍스트에 따라)로 치환되어야 합니다.
+        # Prometheus 어노테이션의 포트는 문자열이어도 괜찮습니다.
+        prometheus.io/port: '${CONTAINER_MGMT_PORT}'
+        prometheus.io/path: '/actuator/prometheus'
+        update: ${HASHCODE} # CI/CD 파이프라인에서 주입될 값
+      labels:
+        app: ${USER_NAME}-${SERVICE_NAME}
+    spec:
+      serviceAccountName: default
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - ${USER_NAME}-${SERVICE_NAME}
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: ${IMAGE_NAME}
+        image: ${DOCKER_REGISTRY}/${USER_NAME}-${IMAGE_NAME}:${VERSION}
+        imagePullPolicy: Always
+        ports:
+        # !!! 중요: 이 값들은 env.properties의 실제 숫자 포트 값 (예: 8080, 8081)으로 따옴표 없이 치환되어야 합니다. !!!
+        - containerPort: ${CONTAINER_PORT}
+        - containerPort: ${CONTAINER_MGMT_PORT}
+        env:
+        - name: LOGGING_LEVEL_ROOT
+          value: ${LOGGING_LEVEL}
+        - name: USER_NAME
+          value: ${USER_NAME}
+        - name: NAMESPACE
+          value: ${NAMESPACE}
+        - name: SPRING_PROFILES_ACTIVE
+          value: ${PROFILE}
+        - name: SPRING_APPLICATION_JSON
+          # !!! 중요: 이 값 내부의 포트 번호도 실제 숫자 (예: "8081" - JSON 문자열 내부이므로 따옴표 포함)로 치환되어야 합니다. !!!
+          value: '{"management":{"server":{"port":"${CONTAINER_MGMT_PORT}"}}}'
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: ${USER_NAME}-${SERVICE_NAME}-config
+              key: SPRING_DATASOURCE_URL
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: ${USER_NAME}-${SERVICE_NAME}-config
+              key: SPRING_DATASOURCE_USERNAME
+        - name: SPRING_DATASOURCE_DRIVER
+          valueFrom:
+            configMapKeyRef:
+              name: ${USER_NAME}-${SERVICE_NAME}-config
+              key: SPRING_DATASOURCE_DRIVER
+        envFrom:
+        - secretRef:
+            name: ${USER_NAME}-${SERVICE_NAME}-secrets
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "500m"
+        startupProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            # !!! 중요: 이 값은 env.properties의 실제 숫자 포트 값 (예: 8081)으로 따옴표 없이 치환되어야 합니다. !!!
+            port: ${CONTAINER_MGMT_PORT}
+          failureThreshold: 30
+          periodSeconds: 10
+          initialDelaySeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            # !!! 중요: 이 값은 env.properties의 실제 숫자 포트 값 (예: 8081)으로 따옴표 없이 치환되어야 합니다. !!!
+            port: ${CONTAINER_MGMT_PORT}
+          failureThreshold: 3
+          periodSeconds: 10
+          initialDelaySeconds: 60
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            # !!! 중요: 이 값은 env.properties의 실제 숫자 포트 값 (예: 8081)으로 따옴표 없이 치환되어야 합니다. !!!
+            port: ${CONTAINER_MGMT_PORT}
+          failureThreshold: 3
+          periodSeconds: 10
+          initialDelaySeconds: 10

@@ -3,10 +3,10 @@ spring:
     name: skala-stock-console2
 
   datasource:
-    url: jdbc:mysql://localhost:3306/skala-stock-server-db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: root # 로컬: root, 서버: skala-stock-server-user
-    password: skala1234!
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME} # 로컬: root, 서버: skala-stock-server-user
+    # password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER}
   jpa:
     properties:
       hibernate:
@@ -19,3 +19,14 @@ spring:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,env,beans,liveness,readiness # Add other endpoints as needed
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true # Enables liveness and readiness probes support
