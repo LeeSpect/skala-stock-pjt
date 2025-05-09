@@ -4,15 +4,15 @@ spring:
 
   datasource:
     url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME} # 로컬: root, 서버: skala-stock-server-user
-    # password: ${SPRING_DATASOURCE_PASSWORD}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: ${SPRING_DATASOURCE_DRIVER}
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
         format_sql: true
-        ddl-auto: update
+        ddl-auto: create
     defer-datasource-initialization: true
     generate-ddl: true
     #open-in-view: false

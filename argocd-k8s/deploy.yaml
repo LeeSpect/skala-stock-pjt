@@ -45,3 +45,4 @@ spec:
         envFrom:
         - secretRef:
             name: sk000-my-app-secrets
+            key: SPRING_DATASOURCE_PASSWORD
