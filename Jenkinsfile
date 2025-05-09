@@ -36,15 +36,5 @@ pipeline {
                 }
             }
         }
-
-                    // sed -i 's/sk000-my-app/sk084-my-app/g' ./k8s/*.yaml
-        stage('Deploy to Kubernetes') {
-            steps {
-                sh '''
-                    kubectl apply -f ./k8s
-                    kubectl rollout status deployment/sk084-skala-stock-console2
-                '''
-            }
-        }
     }
 }

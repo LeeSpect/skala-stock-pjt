@@ -1,0 +1,14 @@
+# k8s/configmap.t
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sk084-skala-stock-console2-config
+  namespace: skala-practice
+data:
+  # application.yml에서 참조할 환경 변수들
+  SPRING_DATASOURCE_URL: "jdbc:mariadb://a372be0564d58424b9f503dd696e766a-1897922469.ap-northeast-2.elb.amazonaws.com:3306/CLOUD?allowMultiQueries=true"
+  SPRING_DATASOURCE_USERNAME: "cloud"
+  SPRING_DATASOURCE_DRIVER: "org.mariadb.jdbc.Driver" # 필요하다면 env.properties에 추가하고 ${DB_DRIVER} 등으로 참조 가능
+  # LOGGING_LEVEL, SPRING_PROFILES_ACTIVE 등은 deploy.t에서 직접 주입하고 있으므로 여기서는 생략하거나,
+  # deploy.t에서 ConfigMap을 참조하도록 변경할 수도 있습니다.
+  # 여기서는 데이터베이스 관련 설정만 ConfigMap으로 관리하는 예시를 보여드립니다.
