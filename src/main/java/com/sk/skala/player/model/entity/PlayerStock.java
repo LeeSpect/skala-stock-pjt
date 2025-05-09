@@ -1,13 +1,22 @@
 package com.sk.skala.player.model.entity;
 
-import com.sk.skala.stock.model.entity.Stock;
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.GenerationType.*;
 
-import static jakarta.persistence.FetchType.LAZY;
-import static jakarta.persistence.GenerationType.IDENTITY;
-import static lombok.AccessLevel.PROTECTED;
+import com.sk.skala.stock.model.entity.Stock;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 플레이어가 소유한 주식 정보
@@ -18,7 +27,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "player_stock")
+@Table(name = "player_stock-84")
 public class PlayerStock {
 
     @Id
