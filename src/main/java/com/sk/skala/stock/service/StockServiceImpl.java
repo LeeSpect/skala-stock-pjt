@@ -1,18 +1,20 @@
 package com.sk.skala.stock.service;
 
-import com.sk.skala.stock.event.MarketSimulationEvent;
-import com.sk.skala.stock.model.dto.response.StockResponse;
-import com.sk.skala.stock.model.entity.Stock;
-import com.sk.skala.stock.repository.StockRepository;
-import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import com.sk.skala.stock.event.MarketSimulationEvent;
+import com.sk.skala.stock.model.dto.response.StockResponse;
+import com.sk.skala.stock.model.entity.Stock;
+import com.sk.skala.stock.repository.StockRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
