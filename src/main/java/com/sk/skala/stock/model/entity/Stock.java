@@ -20,7 +20,7 @@ import static jakarta.persistence.InheritanceType.SINGLE_TABLE;
 @Setter
 @Entity
 @SuperBuilder
-@Table(name = "stock")
+@Table(name = "stock-84")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Stock {

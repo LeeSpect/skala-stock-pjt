@@ -15,7 +15,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Setter
 @Entity
 @Builder
-@Table(name = "transaction")
+@Table(name = "transaction-84")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transaction {

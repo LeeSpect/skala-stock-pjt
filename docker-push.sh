@@ -1,8 +1,8 @@
 #!/bin/bash
 
 NAME=sk084
-IMAGE_NAME="skala-stock-console2"
-VERSION="1.0.0"
+IMAGE_NAME="my-app"
+VERSION="2.0.0"
 
 DOCKER_REGISTRY="amdp-registry.skala-ai.com/skala25a"
 DOCKER_REGISTRY_USER="robot\$skala25a" # env.properties에서 가져오거나 직접 설정

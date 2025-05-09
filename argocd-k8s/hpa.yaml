@@ -2,13 +2,13 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: sk084-skala-stock-console2-hpa
+  name: sk084-my-app-hpa
   namespace: skala-practice
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: sk084-skala-stock-console2 # k8s/deploy.t 에서 생성한 Deployment 이름
+    name: sk084-my-app # k8s/deploy.t 에서 생성한 Deployment 이름
   minReplicas: 2 # 최소 Pod 수 (deploy.t의 replicas와 일치시키거나 더 낮게 설정 가능)
   maxReplicas: 5 # 최대 Pod 수
   metrics:

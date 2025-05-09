@@ -1,8 +1,8 @@
 #!/bin/bash
 
 NAME=sk084
-IMAGE_NAME="skala-stock-console2"
-VERSION="1.0.0"
+IMAGE_NAME="my-app"
+VERSION="2.0.0"
 
 # Maven을 사용하여 프로젝트 빌드 (JAR 파일 생성)
 echo "Spring Boot 애플리케이션 빌드 중..."

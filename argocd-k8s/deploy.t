@@ -4,7 +4,7 @@ metadata:
   name: ${USER_NAME}-${SERVICE_NAME}
   namespace: ${NAMESPACE}
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: ${USER_NAME}-${SERVICE_NAME}

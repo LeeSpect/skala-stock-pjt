@@ -26,7 +26,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Setter
 @Builder
 @Entity
-@Table(name = "player")
+@Table(name = "player-84")
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor(access = PROTECTED)
 public class Player {

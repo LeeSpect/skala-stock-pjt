@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sk084-skala-stock-console2
+  name: sk084-my-app
   namespace: skala-practice
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: sk084-skala-stock-console2
+      app: sk084-my-app
   template:
     metadata:
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '8081'
         prometheus.io/path: '/actuator/prometheus'
-        update: 5f5f87b2920843221073b67c45011375
+        update: 28f8ed43c01253624bbb0d1cf93d48ba
       labels:
-        app: sk084-skala-stock-console2
+        app: sk084-my-app
     spec:
       serviceAccountName: default
       containers:
-      - name: skala-stock-console2
-        image: amdp-registry.skala-ai.com/skala25a/sk084-skala-stock-console2:2.0.0
+      - name: my-app
+        image: amdp-registry.skala-ai.com/skala25a/sk084-my-app:2.0.0
         imagePullPolicy: Always
         env:
         - name: LOGGING_LEVEL_ROOT
@@ -45,4 +45,3 @@ spec:
         envFrom:
         - secretRef:
             name: sk000-my-app-secrets
-            key: SPRING_DATASOURCE_PASSWORD
