@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         GIT_URL = 'https://github.com/LeeSpect/skala-stock-pjt'
-        GIT_BRANCH = 'main' // 또는 master
+        GIT_BRANCH = 'main'
         GIT_ID = 'skala-github-id' // GitHub PAT credential ID
         GIT_USER_NAME = 'LeeSpect'
         GIT_USER_EMAIL = 'wewqwew153@gmail.com'
