@@ -19,6 +19,16 @@ spec:
         app: ${USER_NAME}-${SERVICE_NAME}
     spec:
       serviceAccountName: default
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - ${USER_NAME}-${SERVICE_NAME} # 현재 Pod의 app 레이블 값
+            topologyKey: "kubernetes.io/hostname" # 동일 노드에 스케줄링 방지
       containers:
       - name: ${IMAGE_NAME}
         image: ${DOCKER_REGISTRY}/${USER_NAME}-${IMAGE_NAME}:${VERSION}

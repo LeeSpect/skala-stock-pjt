@@ -19,6 +19,16 @@ spec:
         app: sk084-my-app
     spec:
       serviceAccountName: default
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - sk084-my-app # 현재 Pod의 app 레이블 값
+            topologyKey: "kubernetes.io/hostname" # 동일 노드에 스케줄링 방지
       containers:
       - name: my-app
         image: amdp-registry.skala-ai.com/skala25a/sk084-my-app:2.0.0-7-6e7311e21d5c
