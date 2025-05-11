@@ -33,6 +33,13 @@ spec:
       - name: my-app
         image: amdp-registry.skala-ai.com/skala25a/sk084-my-app:2.0.0-8-b55675d0be23
         imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
         env:
         - name: LOGGING_LEVEL_ROOT
           value: DEBUG
