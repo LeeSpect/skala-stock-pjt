@@ -42,13 +42,11 @@ spec:
             configMapKeyRef:
               name: sk000-my-app-config
               key: SPRING_DATASOURCE_USERNAME
-
         - name: SPRING_DATASOURCE_DRIVER
           valueFrom:
             configMapKeyRef:
               name: sk000-my-app-config
               key: SPRING_DATASOURCE_DRIVER
-
         envFrom:
         - secretRef:
             name: sk000-my-app-secrets

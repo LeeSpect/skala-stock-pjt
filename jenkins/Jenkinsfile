@@ -4,9 +4,11 @@ pipeline {
     environment {
         GIT_URL = 'https://github.com/LeeSpect/skala-stock-pjt.git'
         GIT_BRANCH = 'main' // 또는 master
-        GIT_ID = 'LeeSpect' // GitHub PAT credential ID
+        GIT_ID = 'skala-github-id' // GitHub PAT credential ID
+        GIT_USER_NAME = 'LeeSpect'
+        GIT_USER_EMAIL = 'wewqwew153@gmail.com'
         IMAGE_REGISTRY = 'amdp-registry.skala-ai.com/skala25a'
-        IMAGE_NAME = 'sk084-skala-stock-console2'
+        IMAGE_NAME = 'sk084-my-app'
         IMAGE_TAG = '2.0.0'
         DOCKER_CREDENTIAL_ID = 'skala-image-registry-id'  // Harbor 인증 정보 ID
     }
