@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        GIT_URL = 'https://github.com/LeeSpect/skala-stock-pjt.git'
+        GIT_URL = 'https://github.com/LeeSpect/skala-stock-pjt'
         GIT_BRANCH = 'main' // 또는 master
         GIT_ID = 'skala-github-id' // GitHub PAT credential ID
         GIT_USER_NAME = 'LeeSpect'
