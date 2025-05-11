@@ -31,7 +31,7 @@ spec:
             topologyKey: "kubernetes.io/hostname" # 동일 노드에 스케줄링 방지
       containers:
       - name: my-app
-        image: amdp-registry.skala-ai.com/skala25a/sk084-my-app:2.0.0-9-28d777a58584
+        image: amdp-registry.skala-ai.com/skala25a/sk084-my-app:2.0.0-10-f1ea45d57656
         imagePullPolicy: Always
         resources:
           requests:
