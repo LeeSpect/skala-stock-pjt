@@ -51,3 +51,17 @@ spec:
         - secretRef:
             name: sk000-my-app-secrets
             key: SPRING_DATASOURCE_PASSWORD
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness # Actuator liveness endpoint
+            port: 8080 # 또는 8081 (management.server.port 설정에 따라)
+          initialDelaySeconds: 60 # 컨테이너 시작 후 60초 뒤에 첫 Probe 시작
+          periodSeconds: 10       # 10초마다 Probe 실행
+          failureThreshold: 3     # 3번 연속 실패 시 컨테이너 재시작
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness # Actuator readiness endpoint
+            port: 8080 # 또는 8081
+          initialDelaySeconds: 30 # 컨테이너 시작 후 30초 뒤에 첫 Probe 시작
+          periodSeconds: 10       # 10초마다 Probe 실행
+          failureThreshold: 3     # 3번 연속 실패 시 Pod를 Unready 상태로 변경
